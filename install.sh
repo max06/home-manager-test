@@ -1,2 +1,2 @@
 #!/bin/bash
-nix run home-manager/master -- switch --flake ~/dotfiles
+nix run home-manager/master --impure -- switch --flake ~/dotfiles
