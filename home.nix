@@ -23,6 +23,7 @@ in
   programs.powerline-go.modules = [
     "user"
     "ssh"
+    "git-branch"
     "cwd"
   ];
 
