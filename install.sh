@@ -24,4 +24,4 @@ EOF
 git add currentUser.nix
 
 # Run home-manager
-nix run home-manager/master -- switch --flake ~/dotfiles#container
+nix run home-manager/master -- switch --flake ~/dotfiles#container -b backup
