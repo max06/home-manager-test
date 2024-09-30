@@ -25,6 +25,8 @@ in
     "ssh"
     "gitlite"
     "cwd"
+    "jobs"
+    "exit"
   ];
 
   # This value determines the Home Manager release that your configuration is
