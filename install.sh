@@ -7,13 +7,13 @@ if [ ! -f /.dockerenv ]; then
 fi
 
 # Change working directory
-cd ~/dotfiles
+cd ${HOME}/dotfiles
 
 # Define the output Nix file path
-nix_file="~/dotfiles/currentUser.nix"
+nix_file="${HOME}/dotfiles/currentUser.nix"
 
 # Create the Nix file with user and home directory information
-cat <<EOF > $nix_file
+cat <<EOF > "$nix_file"
 {
   user = "${USER}";
   home = "${HOME}";
