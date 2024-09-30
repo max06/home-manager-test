@@ -20,6 +20,11 @@ in
   '';
 
   programs.powerline-go.enable = true;
+  programs.powerline-go.modules = [
+    username
+    ssh
+    cwd
+  ];
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
