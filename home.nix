@@ -21,7 +21,7 @@ in
 
   programs.powerline-go.enable = true;
   programs.powerline-go.modules = [
-    "username"
+    "user"
     "ssh"
     "cwd"
   ];
