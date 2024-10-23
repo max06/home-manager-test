@@ -1,15 +1,24 @@
-{ config, pkgs, ... }:
-
-let
-  currentUser = import ./currentUser.nix;
-in
 {
+  config,
+  pkgs,
+  lib,
+  ...
+}: let
+  currentUser = import ./currentUser.nix;
+in {
   # Home Manager needs a bit of information about you and the paths it should
   # manage.
   home.username = currentUser.user;
   home.homeDirectory = currentUser.home;
 
   programs.fish.enable = true;
+  programs.fish.plugins = [
+    {
+      name = "tide";
+      src = pkgs.fishPlugins.tide.src;
+    }
+  ];
+
   programs.bash.enable = true;
   programs.bash.initExtra = ''
     if [[ $(${pkgs.procps}/bin/ps --no-header --pid=$PPID --format=comm) != "fish" && -z ''${BASH_EXECUTION_STRING} ]]
@@ -19,18 +28,24 @@ in
     fi
   '';
 
-  programs.powerline-go.enable = true;
-  programs.powerline-go.modules = [
-    "user"
-    "ssh"
-    "gitlite"
-    "cwd"
-    "jobs"
-    "exit"
-  ];
-  programs.powerline-go.settings = {
-    hostname-only-if-ssh = true;
-    numeric-exit-codes = true;
+  home.activation = {
+    createTideConfig = lib.hm.dag.entryAfter ["writeBoundary"] ''
+      ${pkgs.fish}/bin/fish -c "tide configure --auto \
+        --style=Classic \
+        --prompt_colors='True color' \
+        --classic_prompt_color=Dark \
+        --show_time=No \
+        --classic_prompt_separators=Angled \
+        --powerline_prompt_heads=Sharp \
+        --powerline_prompt_tails=Flat \
+        --powerline_prompt_style='Two lines, character and frame' \
+        --prompt_connection=Disconnected \
+        --powerline_right_prompt_frame=Yes \
+        --prompt_connection_andor_frame_color=Dark \
+        --prompt_spacing=Sparse \
+        --icons='Many icons' \
+        --transient=Yes"
+    '';
   };
 
   # This value determines the Home Manager release that your configuration is
@@ -61,6 +76,8 @@ in
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
+
+    pkgs.alejandra
   ];
 
   # Home Manager is pretty good at managing dotfiles. The primary way to manage
